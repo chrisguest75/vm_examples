@@ -18,4 +18,5 @@ just iso
 
 ## Resources
 
+* https://libvirt.org/
 * https://rabexc.org/posts/how-to-get-started-with-libvirt-on

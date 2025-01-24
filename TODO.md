@@ -5,3 +5,5 @@
 * qemu
 * hyperv
 * packer
+* proxmox
+* subiquity
