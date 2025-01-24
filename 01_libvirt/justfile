@@ -1,0 +1,21 @@
+set dotenv-load := true
+
+# default lists actions
+default:
+  @just -f justfile --list
+
+#clean:
+#  rm -rf ./.venv || true
+#  rm Pipfile.lock || true
+
+nix:
+  #!/usr/bin/env bash
+  set -xeufo pipefail
+  nix develop --command zsh
+
+iso:
+  #!/usr/bin/env bash
+  set -xeufo pipefail
+  mkdir -p ../iso || true
+  curl -o ../iso/ubuntu-24.04.1-live-server-amd64.iso "https://releases.ubuntu.com/24.04.1/ubuntu-24.04.1-live-server-amd64.iso"
+
