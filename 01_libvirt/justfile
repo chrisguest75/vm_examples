@@ -15,11 +15,27 @@ nix:
 
 iso:
   #!/usr/bin/env bash
-  set -xeufo pipefail
+  set -eufo pipefail
   mkdir -p ../iso || true
   curl -o ../iso/ubuntu-24.04.1-live-server-amd64.iso "https://releases.ubuntu.com/24.04.1/ubuntu-24.04.1-live-server-amd64.iso"
 
 create:
   #!/usr/bin/env bash
-  set -xeufo pipefail
+  set -eufo pipefail
   virt-install -n ubuntu-testing --ram 4096 --vcpus=2 --cpu=host-model -c ../iso/ubuntu-24.04.1-live-server-amd64.iso --os-variant=ubuntu24.04 --graphics=vnc
+
+list:
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  virsh list --all
+
+manager:
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  virt-manager
+
+destroy:
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  virsh shutdown ubuntu-testing || true
+  virsh undefine ubuntu-testing || true

@@ -7,6 +7,7 @@ TODO:
 * Prep ubuntu automatically
 * delete vm
 * details on vm
+* attach a bridge network
 
 ## Nix
 
@@ -30,7 +31,13 @@ virt-install --osinfo list
 just create
 
 # go to QEMU/KVM user session
-virt-manager
+just manager
+```
+
+## Cleanup
+
+```sh
+just destroy
 ```
 
 ## Resources

@@ -1,5 +1,7 @@
 # VIRTUAL MACHINES
 
+Examples of working with virtual machines.  
+
 ## Conventional Commits
 
 NOTE: This repo has switched to [conventional commits](https://www.conventionalcommits.org/en/v1.0.0). It requires `pre-commit` and `commitizen` to help with controlling this.
