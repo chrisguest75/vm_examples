@@ -2,6 +2,12 @@
 
 Build a simple VM using libvirt.  
 
+TODO:
+
+* Prep ubuntu automatically
+* delete vm
+* details on vm
+
 ## Nix
 
 ```sh
@@ -14,6 +20,17 @@ just nix
 ```sh
 # download ubuntu iso
 just iso
+```
+
+## Install
+
+```sh
+virt-install --osinfo list
+
+just create
+
+# go to QEMU/KVM user session
+virt-manager
 ```
 
 ## Resources
