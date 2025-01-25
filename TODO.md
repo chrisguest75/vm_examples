@@ -6,6 +6,7 @@
 * hyperv
 * packer
 * proxmox
+* firecracker
 * subiquity - https://github.com/canonical/subiquity
 * cloud-init
 * https://medium.com/@Phoenixforge/getting-your-feet-wet-with-ubuntu-autoinstall-e2c012454a37
