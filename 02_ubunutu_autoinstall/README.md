@@ -5,7 +5,6 @@ NOTES:
 * Installations generate `/var/log/installer/autoinstall-user-data`
 * Older versions of Ubuntu used to use preseed.  
 
-
 TODO:
 
 * Get a copy of autoinstall script

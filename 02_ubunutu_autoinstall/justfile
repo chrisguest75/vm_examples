@@ -34,8 +34,9 @@ image-unpack:
 image-build:
   #!/usr/bin/env bash
   set -eufo pipefail
-  cd image
-  rm ../../iso/${CUSTOM_ISO_NAME}
+  rm ../iso/${CUSTOM_ISO_NAME} || true
+  cp ./ubuntu24.04/server/user-data-2 ./image/server/user-data
+  cd ./image
   xorriso -as mkisofs -r \
     -V 'Ubuntu-Server 24.04.1 LTS amd64' \
     -o ../../iso/${CUSTOM_ISO_NAME} \
