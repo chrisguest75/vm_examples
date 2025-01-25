@@ -1,5 +1,9 @@
 set dotenv-load := true
 
+export MACHINE_NAME:="ubuntu-autoinstall"
+export SOURCE_ISO_NAME:="ubuntu-24.04.1-live-server-amd64.iso"
+export CUSTOM_ISO_NAME:="ubuntu-24.04-custom-autoinstall.iso"
+
 # default lists actions
 default:
   @just -f justfile --list
@@ -17,31 +21,61 @@ iso:
   #!/usr/bin/env bash
   set -eufo pipefail
   mkdir -p ../iso || true
-  curl -o ../iso/ubuntu-24.04.1-live-server-amd64.iso "https://releases.ubuntu.com/24.04.1/ubuntu-24.04.1-live-server-amd64.iso"
+  curl -o ../iso/${SOURCE_ISO_NAME} "https://releases.ubuntu.com/24.04.1/ubuntu-24.04.1-live-server-amd64.iso"
 
-unpack:
+image-unpack:
   #!/usr/bin/env bash
   set -eufo pipefail
   mkdir -p ./image || true
-  7z -y x ../iso/ubuntu-24.04.1-live-server-amd64.iso  -oimage
+  7z -y x ../iso/${SOURCE_ISO_NAME}  -oimage
+  # move boot out
+  mv  './image/[BOOT]' ./BOOT
 
-create:
+image-build:
   #!/usr/bin/env bash
   set -eufo pipefail
-  virt-install -n ubuntu-autoinstall --ram 4096 --vcpus=2 --cpu=host-model -c ../iso/ubuntu-24.04-custom-autoinstall.iso --os-variant=ubuntu24.04 --graphics=vnc --network bridge=virbr0
+  cd image
+  rm ../../iso/${CUSTOM_ISO_NAME}
+  xorriso -as mkisofs -r \
+    -V 'Ubuntu-Server 24.04.1 LTS amd64' \
+    -o ../../iso/${CUSTOM_ISO_NAME} \
+    --grub2-mbr ../BOOT/1-Boot-NoEmul.img \
+    -partition_offset 16 \
+    --mbr-force-bootable \
+    -append_partition 2 28732ac11ff8d211ba4b00a0c93ec93b ../BOOT/2-Boot-NoEmul.img \
+    -appended_part_as_gpt \
+    -iso_mbr_part_type a2a0d0ebe5b9334487c068b6b72699c7 \
+    -c '/boot.catalog' \
+    -b '/boot/grub/i386-pc/eltorito.img' \
+      -no-emul-boot -boot-load-size 4 -boot-info-table --grub2-boot-info \
+    -eltorito-alt-boot \
+    -e '--interval:appended_partition_2:::' \
+    -no-emul-boot \
+    .
 
-list:
+machine-create:
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  virt-install -n ${MACHINE_NAME} --ram 4096 --vcpus=2 --cpu=host-model -c ../iso/${CUSTOM_ISO_NAME} --os-variant=ubuntu24.04 --graphics=vnc --network bridge=virbr0
+
+machine-list:
   #!/usr/bin/env bash
   set -eufo pipefail
   virsh list --all
 
-connect:
+manager:
   #!/usr/bin/env bash
   set -eufo pipefail
-  virt-viewer --connect qemu:///session --wait ubuntu-autoinstall
+  virt-manager
 
-destroy:
+machine-connect:
   #!/usr/bin/env bash
   set -eufo pipefail
-  virsh shutdown ubuntu-autoinstall || true
-  virsh undefine ubuntu-autoinstall || true
+  virt-viewer --connect qemu:///session --wait ${MACHINE_NAME}
+
+machine-destroy:
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  virsh shutdown ${MACHINE_NAME} || true
+  virsh undefine ${MACHINE_NAME} || true
+  

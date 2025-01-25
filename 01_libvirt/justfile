@@ -1,5 +1,7 @@
 set dotenv-load := true
 
+export MACHINE_NAME:="ubuntu-testing"
+
 # default lists actions
 default:
   @just -f justfile --list
@@ -19,12 +21,12 @@ iso:
   mkdir -p ../iso || true
   curl -o ../iso/ubuntu-24.04.1-live-server-amd64.iso "https://releases.ubuntu.com/24.04.1/ubuntu-24.04.1-live-server-amd64.iso"
 
-create:
+machine-create:
   #!/usr/bin/env bash
   set -eufo pipefail
-  virt-install -n ubuntu-testing --ram 4096 --vcpus=2 --cpu=host-model -c ../iso/ubuntu-24.04.1-live-server-amd64.iso --os-variant=ubuntu24.04 --graphics=vnc --network bridge=virbr0
+  virt-install -n ${MACHINE_NAME} --ram 4096 --vcpus=2 --cpu=host-model -c ../iso/ubuntu-24.04.1-live-server-amd64.iso --os-variant=ubuntu24.04 --graphics=vnc --network bridge=virbr0
 
-list:
+machine-list:
   #!/usr/bin/env bash
   set -eufo pipefail
   virsh list --all
@@ -34,13 +36,13 @@ manager:
   set -eufo pipefail
   virt-manager
 
-connect:
+machine-connect:
   #!/usr/bin/env bash
   set -eufo pipefail
-  virt-viewer --connect qemu:///session --wait ubuntu-testing
+  virt-viewer --connect qemu:///session --wait ${MACHINE_NAME}
 
-destroy:
+machine-destroy:
   #!/usr/bin/env bash
   set -eufo pipefail
-  virsh shutdown ubuntu-testing || true
-  virsh undefine ubuntu-testing || true
+  virsh shutdown ${MACHINE_NAME} || true
+  virsh undefine ${MACHINE_NAME} || true

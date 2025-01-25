@@ -24,10 +24,12 @@ just iso
 
 ## Bridge
 
+The default network seems to be missing on NixOS
+
 ```sh
 virsh net-list --all
 
-# create
+# create "default" bridge network
 export NETWORK_NAME=default
 virsh net-define ./${NETWORK_NAME}.xml
 sudo virsh net-start ${NETWORK_NAME}
@@ -37,10 +39,11 @@ virsh net-autostart ${NETWORK_NAME}
 ## Install
 
 ```sh
+# list supported OSes
 virt-install --osinfo list
 
 # it should be possible to ssh after creation.
-just create
+just machine-create
 
 # go to QEMU/KVM user session
 just manager
@@ -49,28 +52,27 @@ just manager
 ## Connect
 
 ```sh
-virt-viewer --connect qemu:///session --wait ubuntu-testing
+just machine-connect
 ```
 
 ## Cleanup
 
 ```sh
-just destroy
+just machine-destroy
 
 # remove bridge
 virsh net-destroy ${NETWORK_NAME}
 virsh net-undefine ${NETWORK_NAME}
 
-
+# looks for old disks
 find / -iname "*.qcow2"
-
 ls -l /home/$USER/.local/share/libvirt/images/
 ```
 
 ## Resources
 
-* https://libvirt.org/
-* https://rabexc.org/posts/how-to-get-started-with-libvirt-on
-* https://linuxconfig.org/how-to-use-bridged-networking-with-libvirt-and-kvm
-* https://www.dzombak.com/blog/2024/02/Setting-up-KVM-virtual-machines-using-a-bridged-network.html
+* The libvirt project [here](https://libvirt.org/)
+* How to get started with libvirt on Linux [here](https://rabexc.org/posts/how-to-get-started-with-libvirt-on)
+* How to use bridged networking with libvirt and KVM [here](https://linuxconfig.org/how-to-use-bridged-networking-with-libvirt-and-kvm)
+* Setting up KVM virtual machines using a bridge network on an Ubuntu host [here](https://www.dzombak.com/blog/2024/02/Setting-up-KVM-virtual-machines-using-a-bridged-network.html)
 * KVM - Fix Missing Default Network [here](https://blog.programster.org/kvm-missing-default-network)
