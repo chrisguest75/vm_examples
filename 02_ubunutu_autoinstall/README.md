@@ -36,6 +36,14 @@ just image-build
 just machine-build
 ```
 
+## Chezmoi
+
+REF: [github.com/chrisguest75/chezmoi_dotfiles](https://github.com/chrisguest75/chezmoi_dotfiles)
+
+```sh
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply chrisguest75/chezmoi_dotfiles
+```
+
 ## Resources
 
 * Ubuntu 22.04 Server Autoinstall ISO [here](https://www.pugetsystems.com/labs/hpc/ubuntu-22-04-server-autoinstall-iso/?srsltid=AfmBOoobWRvGqVGtViRsEGG9TCNOB6eDCaJrqHdS65qUuV-bvkmh8Qog)
