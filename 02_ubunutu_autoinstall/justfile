@@ -80,3 +80,8 @@ machine-destroy:
   virsh shutdown ${MACHINE_NAME} || true
   virsh undefine ${MACHINE_NAME} || true
   
+machine-details:
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  virsh dumpxml ${MACHINE_NAME}
+  #| grep qcow2

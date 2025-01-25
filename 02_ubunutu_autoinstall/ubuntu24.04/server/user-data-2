@@ -28,8 +28,8 @@ autoinstall:
 
   package_update: true
   package_upgrade: true
-  late-commands:
-    - curtin in-target -- sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply chrisguest75/chezmoi_dotfiles
+  #late-commands:
+  #  - curtin in-target -- sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply chrisguest75/chezmoi_dotfiles
  
   #user-data: # Commands here run during first boot (cannot be interactive)
   #  runcmd:
