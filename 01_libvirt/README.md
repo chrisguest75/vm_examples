@@ -28,9 +28,10 @@ just iso
 virsh net-list --all
 
 # create
-virsh net-define ./hostbridge.xml
-virsh net-start hostbridge
-virsh net-autostart hostbridge
+export NETWORK_NAME=default
+virsh net-define ./${NETWORK_NAME}.xml
+sudo virsh net-start ${NETWORK_NAME}
+virsh net-autostart ${NETWORK_NAME}
 ```
 
 ## Install
@@ -38,6 +39,7 @@ virsh net-autostart hostbridge
 ```sh
 virt-install --osinfo list
 
+# it should be possible to ssh after creation.
 just create
 
 # go to QEMU/KVM user session
@@ -56,8 +58,8 @@ virt-viewer --connect qemu:///session --wait ubuntu-testing
 just destroy
 
 # remove bridge
-virsh net-destroy hostbridge
-virsh net-undefine hostbridge
+virsh net-destroy ${NETWORK_NAME}
+virsh net-undefine ${NETWORK_NAME}
 
 
 find / -iname "*.qcow2"
@@ -71,3 +73,4 @@ ls -l /home/$USER/.local/share/libvirt/images/
 * https://rabexc.org/posts/how-to-get-started-with-libvirt-on
 * https://linuxconfig.org/how-to-use-bridged-networking-with-libvirt-and-kvm
 * https://www.dzombak.com/blog/2024/02/Setting-up-KVM-virtual-machines-using-a-bridged-network.html
+* KVM - Fix Missing Default Network [here](https://blog.programster.org/kvm-missing-default-network)
