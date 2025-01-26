@@ -44,11 +44,18 @@ machine-connect name="${MACHINE_NAME}":
   set -eufo pipefail
   virt-viewer --connect qemu:///session --wait {{ name }}
 
+machine-connect-remote name="${MACHINE_NAME}":
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  #virt-viewer --connect qemu:///session --wait {{ name }}
+  virt-viewer --connect qemu+ssh://chrisguest@192.168.1.183/session {{ name }}  
+
 machine-destroy name="${MACHINE_NAME}":
   #!/usr/bin/env bash
   set -eufo pipefail
   # shutdown the machine
   virsh shutdown {{ name }} || true
+  virsh destroy {{ name }} || true
   echo "Waiting 2 seconds for the machine to shutdown"
   sleep 2
   virsh undefine {{ name }} --remove-all-storage || true

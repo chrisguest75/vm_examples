@@ -40,6 +40,7 @@ image-build userdata='user-data-3':
   echo "Building custom iso using '{{ userdata }}'"
   echo ""
   mkdir -p ./image/server/ || true
+  cp ./ubuntu24.04/boot/grub/grub.cfg ./image//boot/grub/grub.cfg
   cp ./ubuntu24.04/server/{{ userdata }} ./image/server/user-data
   cd ./image
   xorriso -as mkisofs -r \
@@ -86,6 +87,7 @@ machine-destroy name="${MACHINE_NAME}":
   set -eufo pipefail
   # shutdown the machine
   virsh shutdown {{ name }} || true
+  virsh destroy {{ name }} || true
   echo "Waiting 2 seconds for the machine to shutdown"
   sleep 2
   virsh undefine {{ name }} --remove-all-storage || true
