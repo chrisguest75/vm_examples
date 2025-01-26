@@ -93,3 +93,11 @@ machine-details:
   set -eufo pipefail
   virsh dumpxml ${MACHINE_NAME}
   #| grep qcow2
+
+machine-network name="${MACHINE_NAME}":
+  #!/usr/bin/env bash
+  #set -eufo pipefail
+  mkdir -p ./machines || true
+  virsh domifaddr {{ name }}
+  virsh domifaddr {{ name }} --source agent
+  #virsh console {{ name }}

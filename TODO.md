@@ -19,3 +19,5 @@
 * manage a remote machine to build machines.
 * get ip address of libvirt machine.
 * vscode over ssh
+* monitor installation without virt-viewer (over ssh)
+* prometheus

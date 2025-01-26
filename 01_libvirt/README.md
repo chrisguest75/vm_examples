@@ -5,6 +5,7 @@ Build a simple VM using libvirt.
 TODO:
 
 * domains - a better understanding
+* sudo apt-get install qemu-guest-agent
 
 ## Nix
 
@@ -74,3 +75,4 @@ ls -l /home/$USER/.local/share/libvirt/images/
 * How to use bridged networking with libvirt and KVM [here](https://linuxconfig.org/how-to-use-bridged-networking-with-libvirt-and-kvm)
 * Setting up KVM virtual machines using a bridge network on an Ubuntu host [here](https://www.dzombak.com/blog/2024/02/Setting-up-KVM-virtual-machines-using-a-bridged-network.html)
 * KVM - Fix Missing Default Network [here](https://blog.programster.org/kvm-missing-default-network)
+* https://pve.proxmox.com/wiki/Qemu-guest-agent

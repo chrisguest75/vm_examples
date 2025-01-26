@@ -47,3 +47,27 @@ machine-destroy:
   set -eufo pipefail
   virsh shutdown ${MACHINE_NAME} || true
   virsh undefine ${MACHINE_NAME} || true
+
+machine-clone name="${MACHINE_NAME}":
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  mkdir -p ./machines || true
+  virsh shutdown ${MACHINE_NAME} || true
+  sleep 2
+  virt-clone --original {{ name }} --auto-clone --name {{ name }}-clone --file ./machines/{{ name }}-clone.qcow2
+
+machine-export name="${MACHINE_NAME}":
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  mkdir -p ./machines || true
+
+  virsh dumpxml {{ name }} > ./machines/{{ name }}.xml
+  virsh domblklist {{ name }}
+
+machine-network name="${MACHINE_NAME}":
+  #!/usr/bin/env bash
+  #set -eufo pipefail
+  mkdir -p ./machines || true
+  virsh domifaddr {{ name }}
+  virsh domifaddr {{ name }} --source agent
+  #virsh console {{ name }}
