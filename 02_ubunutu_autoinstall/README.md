@@ -29,14 +29,32 @@ xorriso -indev ../iso/ubuntu-24.04.1-live-server-amd64.iso -report_el_torito as_
 ## Build
 
 ```sh
+mkpasswd
+
 # create iso image
-just image-build
+just image-build user-data-3
 
 # create machine
 just machine-build
 ```
 
-## Chezmoi
+## Finalise provisioning
+
+### Volume size
+
+```sh
+# get ip of vm on virt-viewer
+ip addr
+
+# ssh 
+ssh 192.168.122.189
+
+# extend volume
+lvextend -L +10G /dev/mapper/ubuntu--vg-ubuntu--lv 
+resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv 
+```
+
+### Chezmoi
 
 REF: [github.com/chrisguest75/chezmoi_dotfiles](https://github.com/chrisguest75/chezmoi_dotfiles)
 

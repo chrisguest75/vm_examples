@@ -23,6 +23,7 @@ iso:
   mkdir -p ../iso || true
   curl -o ../iso/${SOURCE_ISO_NAME} "https://releases.ubuntu.com/24.04.1/ubuntu-24.04.1-live-server-amd64.iso"
 
+# unpack the base iso image
 image-unpack:
   #!/usr/bin/env bash
   set -eufo pipefail
@@ -31,11 +32,14 @@ image-unpack:
   # move boot out
   mv  './image/[BOOT]' ./BOOT
 
-image-build:
+# build a custom image
+image-build userdata='user-data-2':
   #!/usr/bin/env bash
   set -eufo pipefail
   rm ../iso/${CUSTOM_ISO_NAME} || true
-  cp ./ubuntu24.04/server/user-data-2 ./image/server/user-data
+  echo "Building custom iso using '{{ userdata }}'"
+  echo ""
+  cp ./ubuntu24.04/server/{{ userdata }} ./image/server/user-data
   cd ./image
   xorriso -as mkisofs -r \
     -V 'Ubuntu-Server 24.04.1 LTS amd64' \
@@ -54,7 +58,8 @@ image-build:
     -no-emul-boot \
     .
 
-machine-create:
+# build a machine using custom image
+machine-create: 
   #!/usr/bin/env bash
   set -eufo pipefail
   virt-install -n ${MACHINE_NAME} --ram 4096 --vcpus=2 --cpu=host-model -c ../iso/${CUSTOM_ISO_NAME} --os-variant=ubuntu24.04 --graphics=vnc --network bridge=virbr0
@@ -77,8 +82,11 @@ machine-connect:
 machine-destroy:
   #!/usr/bin/env bash
   set -eufo pipefail
+  # shutdown the machine
   virsh shutdown ${MACHINE_NAME} || true
-  virsh undefine ${MACHINE_NAME} || true
+  echo "Waiting 2 seconds for the machine to shutdown"
+  sleep 2
+  virsh undefine ${MACHINE_NAME} --remove-all-storage || true
   
 machine-details:
   #!/usr/bin/env bash
