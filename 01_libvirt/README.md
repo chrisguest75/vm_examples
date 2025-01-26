@@ -4,9 +4,7 @@ Build a simple VM using libvirt.
 
 TODO:
 
-* Prep ubuntu automatically
-* details on vm
-* attach a bridge network
+* domains - a better understanding
 
 ## Nix
 

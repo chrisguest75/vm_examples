@@ -1,0 +1,47 @@
+#!/usr/bin/env just --justfile
+# ^ A shebang isn't required, but allows a justfile to be executed
+#   like a script, with `./justfile test`, for example.
+
+set dotenv-load := true
+
+export MACHINE_NAME:="test"
+
+nix:
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  NIXPKGS_ALLOW_UNFREE=1 nix develop --impure --command zsh
+
+# default lists actions
+default:
+  @just -f justfile --list
+
+init:
+  terraform init
+
+test:
+  terraform test
+
+plan:
+  terraform plan
+
+apply:
+  terraform apply
+
+destroy:
+  terraform destroy
+
+machine-list:
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  virsh list --all
+  virsh -c qemu:///system list --all
+
+manager:
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  virt-manager
+
+machine-connect:
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  virt-viewer --connect qemu:///session --wait ${MACHINE_NAME}

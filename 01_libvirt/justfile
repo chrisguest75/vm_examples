@@ -30,6 +30,7 @@ machine-list:
   #!/usr/bin/env bash
   set -eufo pipefail
   virsh list --all
+  virsh -c qemu:///system list --all
 
 manager:
   #!/usr/bin/env bash
