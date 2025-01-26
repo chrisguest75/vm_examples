@@ -33,7 +33,7 @@ destroy:
 machine-list:
   #!/usr/bin/env bash
   set -eufo pipefail
-  virsh list --all
+  virsh --connect qemu:///session list --all
   virsh -c qemu:///system list --all
 
 manager:
@@ -45,3 +45,12 @@ machine-connect:
   #!/usr/bin/env bash
   set -eufo pipefail
   virt-viewer --connect qemu:///session --wait ${MACHINE_NAME}
+
+machine-destroy name="${MACHINE_NAME}":
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  # shutdown the machine
+  virsh --connect qemu:///system shutdown {{ name }} || true
+  echo "Waiting 2 seconds for the machine to shutdown"
+  sleep 2
+  virsh --connect qemu:///system undefine {{ name }} --remove-all-storage || true

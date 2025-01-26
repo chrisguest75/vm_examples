@@ -5,6 +5,7 @@ Use vagrant to install a machine on libvirt.
 TODO:
 
 * Get chezmoi being installed from provisioner
+* add just provision
 
 ## NIX
 

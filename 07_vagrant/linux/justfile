@@ -19,11 +19,11 @@ up:
   #!/usr/bin/env bash
   set -eufo pipefail
   vagrant up --provider libvirt
-
-   
-down:
+ 
+destroy:
   #!/usr/bin/env bash
   set -eufo pipefail
+  vagrant destroy
 
 ssh:
   #!/usr/bin/env bash
