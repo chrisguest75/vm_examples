@@ -1,0 +1,38 @@
+#cloud-config
+autoinstall:
+  version: 1
+  #interactive-sections:  # Install groups listed here will wait for user input
+  # - storage
+  storage:  # This should set the interactive (lvm set) default
+    layout:
+      name: lvm
+      sizing-policy: all
+      match:
+        size: max  
+  locale: en_GB.UTF-8
+  keyboard:
+    layout: gb
+  identity:
+    hostname: ubuntutesting
+    password: $6$LwQKC/cYF9panBqg$t7bhxajw.DdxaPV.ziWT5k12F1BGjjr.aIWJnx2l7zg.82p.1yn8SKwTbQoNMmJIChwsH9Ipb2dKUUVg.AsGa/
+    realname: chrisguest
+    username: chrisguest
+  ssh:
+    allow-pw: true
+    install-server: true
+  apt:
+    primary:
+      - arches: [default]
+        uri: http://us.archive.ubuntu.com/ubuntu/
+  packages: 
+    - curl
+
+  package_update: true
+  package_upgrade: true
+  #late-commands:
+  #  - curtin in-target -- sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply chrisguest75/chezmoi_dotfiles
+ 
+  #user-data: # Commands here run during first boot (cannot be interactive)
+  #  runcmd:
+  #    # Install the NVIDIA driver from the ppa we setup earlier
+  #    - [apt-get, install, --yes,  nvidia-driver-510, --no-install-recommends] 

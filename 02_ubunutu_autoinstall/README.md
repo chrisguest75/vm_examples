@@ -4,11 +4,10 @@ NOTES:
 
 * Installations generate `/var/log/installer/autoinstall-user-data`
 * Older versions of Ubuntu used to use preseed.  
+* `user-data-3` creates full volume size
 
 TODO:
 
-* Get a copy of autoinstall script
-* Use it to deploy a libvirt machine.
 * Install my chezmoi script.
 
 ## Expand ISO
@@ -39,6 +38,8 @@ just machine-build
 ```
 
 ## Finalise provisioning
+
+Depending on the `user-data` chosen you may need to expand the volume.  
 
 ### Volume size
 
