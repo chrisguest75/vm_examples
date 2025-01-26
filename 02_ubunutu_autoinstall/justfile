@@ -41,6 +41,7 @@ image-build userdata='user-data-3':
   echo ""
   mkdir -p ./image/server/ || true
   cp ./ubuntu24.04/boot/grub/grub.cfg ./image//boot/grub/grub.cfg
+  cp ./ubuntu24.04/server/meta-data ./image/server/meta-data
   cp ./ubuntu24.04/server/{{ userdata }} ./image/server/user-data
   cd ./image
   xorriso -as mkisofs -r \
