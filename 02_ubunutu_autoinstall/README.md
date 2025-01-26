@@ -69,4 +69,5 @@ sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply chrisguest75/chezmoi_dotfil
 * Creating autoinstall configuration [here](https://canonical-subiquity.readthedocs-hosted.com/en/latest/tutorial/creating-autoinstall-configuration.html)
 * Providing autoinstall configuration [here](https://canonical-subiquity.readthedocs-hosted.com/en/latest/tutorial/providing-autoinstall.html#providing-autoinstall)
 * canonical/subiquity [repo](https://github.com/canonical/subiquity)
-
+* Getting started with Autoinstall on Ubuntu Desktop 24.04 LTS https://blog.local-optimum.net/getting-started-with-autoinstall-on-ubuntu-desktop-24-04-lts-147a1defb2de
+* Getting your feet wet with Ubuntu Autoinstall https://medium.com/@Phoenixforge/getting-your-feet-wet-with-ubuntu-autoinstall-e2c012454a37

@@ -7,17 +7,12 @@
 * firecracker
 * subiquity - https://github.com/canonical/subiquity
 * cloud-init
-* https://medium.com/@Phoenixforge/getting-your-feet-wet-with-ubuntu-autoinstall-e2c012454a37
-* https://canonical-subiquity.readthedocs-hosted.com/en/latest/intro-to-autoinstall.html
-* https://askubuntu.com/questions/1513081/pxe-booting-ubuntu-24-04-lts-autoinstall
-* https://blog.local-optimum.net/getting-started-with-autoinstall-on-ubuntu-desktop-24-04-lts-147a1defb2de
-
 * snapshots
 * mounted disks
-* export/import libvirt
 * different filesystem tests
 * manage a remote machine to build machines.
 * get ip address of libvirt machine.
 * vscode over ssh
 * monitor installation without virt-viewer (over ssh)
 * prometheus
+* my bridge network is not visible from different machines

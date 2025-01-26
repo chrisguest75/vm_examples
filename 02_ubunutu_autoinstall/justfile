@@ -33,12 +33,13 @@ image-unpack:
   mv  './image/[BOOT]' ./BOOT
 
 # build a custom image
-image-build userdata='user-data-2':
+image-build userdata='user-data-3':
   #!/usr/bin/env bash
   set -eufo pipefail
   rm ../iso/${CUSTOM_ISO_NAME} || true
   echo "Building custom iso using '{{ userdata }}'"
   echo ""
+  mkdir -p ./image/server/ || true
   cp ./ubuntu24.04/server/{{ userdata }} ./image/server/user-data
   cd ./image
   xorriso -as mkisofs -r \
