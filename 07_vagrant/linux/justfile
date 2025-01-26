@@ -1,0 +1,42 @@
+#!/usr/bin/env just --justfile
+# ^ A shebang isn't required, but allows a justfile to be executed
+#   like a script, with `./justfile test`, for example.
+
+set dotenv-load := true
+
+export VAGRANT_MACHINE_VALUES:="4gb_base_ubuntu.yaml"
+
+nix:
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  NIXPKGS_ALLOW_UNFREE=1 nix develop --impure --command zsh
+
+# default lists actions
+default:
+  @just -f justfile --list
+
+up:
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  vagrant up --provider libvirt
+
+   
+down:
+  #!/usr/bin/env bash
+  set -eufo pipefail
+
+ssh:
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  vagrant ssh
+
+machine-list:
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  virsh list --all
+  virsh -c qemu:///system list --all
+
+manager:
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  virt-manager

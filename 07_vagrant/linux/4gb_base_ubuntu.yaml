@@ -1,0 +1,6 @@
+vagrantid: "4gb_base_ubuntu"
+name: "ubuntu"
+box: "generic/ubuntu2204"
+public_network: "virbr0"
+memory: 4096
+
