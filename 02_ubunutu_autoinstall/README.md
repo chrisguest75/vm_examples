@@ -34,7 +34,7 @@ mkpasswd
 just image-build user-data-3
 
 # create machine
-just machine-build
+just machine-create "my-new-machine"
 ```
 
 ## Finalise provisioning

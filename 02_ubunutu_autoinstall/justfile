@@ -60,10 +60,10 @@ image-build userdata='user-data-3':
     .
 
 # build a machine using custom image
-machine-create: 
+machine-create name="${MACHINE_NAME}": 
   #!/usr/bin/env bash
   set -eufo pipefail
-  virt-install -n ${MACHINE_NAME} --ram 4096 --vcpus=2 --cpu=host-model -c ../iso/${CUSTOM_ISO_NAME} --os-variant=ubuntu24.04 --graphics=vnc --network bridge=virbr0
+  virt-install -n {{ name }} --ram 4096 --vcpus=2 --cpu=host-model -c ../iso/${CUSTOM_ISO_NAME} --os-variant=ubuntu24.04 --graphics=vnc --network bridge=virbr0
 
 machine-list:
   #!/usr/bin/env bash
@@ -75,24 +75,24 @@ manager:
   set -eufo pipefail
   virt-manager
 
-machine-connect:
+machine-connect name="${MACHINE_NAME}":
   #!/usr/bin/env bash
   set -eufo pipefail
-  virt-viewer --connect qemu:///session --wait ${MACHINE_NAME}
+  virt-viewer --connect qemu:///session --wait {{ name }}
 
-machine-destroy:
+machine-destroy name="${MACHINE_NAME}":
   #!/usr/bin/env bash
   set -eufo pipefail
   # shutdown the machine
-  virsh shutdown ${MACHINE_NAME} || true
+  virsh shutdown {{ name }} || true
   echo "Waiting 2 seconds for the machine to shutdown"
   sleep 2
-  virsh undefine ${MACHINE_NAME} --remove-all-storage || true
+  virsh undefine {{ name }} --remove-all-storage || true
   
-machine-details:
+machine-details name="${MACHINE_NAME}":
   #!/usr/bin/env bash
   set -eufo pipefail
-  virsh dumpxml ${MACHINE_NAME}
+  virsh dumpxml {{ name }}
   #| grep qcow2
 
 machine-network name="${MACHINE_NAME}":
