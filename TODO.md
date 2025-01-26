@@ -10,9 +10,7 @@
 * snapshots
 * mounted disks
 * different filesystem tests
-* manage a remote machine to build machines.
 * get ip address of libvirt machine.
-* vscode over ssh
-* monitor installation without virt-viewer (over ssh)
+* vscode over ssh (this seems to close the connection)
 * prometheus
 * my bridge network is not visible from different machines
