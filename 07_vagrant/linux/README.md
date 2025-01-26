@@ -2,6 +2,10 @@
 
 Use vagrant to install a machine on libvirt.  
 
+TODO:
+
+* Get chezmoi being installed from provisioner
+
 ## NIX
 
 ```sh
@@ -19,6 +23,16 @@ just up
 ```powershell
 # connect to the ssh
 just ssh
+```
+
+### Chezmoi
+
+REF: [github.com/chrisguest75/chezmoi_dotfiles](https://github.com/chrisguest75/chezmoi_dotfiles)
+
+NOTE: default vagrant password is `vagrant`
+
+```sh
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply chrisguest75/chezmoi_dotfiles
 ```
 
 ## Resources

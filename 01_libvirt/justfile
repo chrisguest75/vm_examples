@@ -1,6 +1,7 @@
 set dotenv-load := true
 
 export MACHINE_NAME:="ubuntu-testing"
+export SOURCE_ISO_NAME:="ubuntu-24.04.1-live-server-amd64.iso"
 
 # default lists actions
 default:
@@ -19,12 +20,13 @@ iso:
   #!/usr/bin/env bash
   set -eufo pipefail
   mkdir -p ../iso || true
-  curl -o ../iso/ubuntu-24.04.1-live-server-amd64.iso "https://releases.ubuntu.com/24.04.1/ubuntu-24.04.1-live-server-amd64.iso"
+  curl -o ../iso/${SOURCE_ISO_NAME} "https://releases.ubuntu.com/24.04.1/ubuntu-24.04.1-live-server-amd64.iso"
 
-machine-create:
+# build a machine using custom image
+machine-create name="${MACHINE_NAME}": 
   #!/usr/bin/env bash
   set -eufo pipefail
-  virt-install -n ${MACHINE_NAME} --ram 4096 --vcpus=2 --cpu=host-model -c ../iso/ubuntu-24.04.1-live-server-amd64.iso --os-variant=ubuntu24.04 --graphics=vnc --network bridge=virbr0
+  virt-install -n {{ name }} --ram 4096 --vcpus=2 --cpu=host-model -c ../iso/${SOURCE_ISO_NAME} --os-variant=ubuntu24.04 --graphics=vnc --network bridge=virbr0
 
 machine-list:
   #!/usr/bin/env bash
@@ -37,16 +39,19 @@ manager:
   set -eufo pipefail
   virt-manager
 
-machine-connect:
+machine-connect name="${MACHINE_NAME}":
   #!/usr/bin/env bash
   set -eufo pipefail
-  virt-viewer --connect qemu:///session --wait ${MACHINE_NAME}
+  virt-viewer --connect qemu:///session --wait {{ name }}
 
-machine-destroy:
+machine-destroy name="${MACHINE_NAME}":
   #!/usr/bin/env bash
   set -eufo pipefail
-  virsh shutdown ${MACHINE_NAME} || true
-  virsh undefine ${MACHINE_NAME} || true
+  # shutdown the machine
+  virsh shutdown {{ name }} || true
+  echo "Waiting 2 seconds for the machine to shutdown"
+  sleep 2
+  virsh undefine {{ name }} --remove-all-storage || true
 
 machine-clone name="${MACHINE_NAME}":
   #!/usr/bin/env bash

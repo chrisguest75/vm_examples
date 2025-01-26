@@ -26,6 +26,7 @@ autoinstall:
         uri: http://us.archive.ubuntu.com/ubuntu/
   packages: 
     - curl
+    - qemu-guest-agent
 
   package_update: true
   package_upgrade: true
