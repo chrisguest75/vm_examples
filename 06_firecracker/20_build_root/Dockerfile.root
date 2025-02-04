@@ -12,41 +12,41 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=tmpfs,target=/tmp \ 
     apt-get update \
     && apt-get install -fy  \ 
-        which \
-        sed \
-        make \
-        binutils \
-        build-essential \
-        diffutils \
-        gcc \
-        g++ \
-        bash \
-        patch \
-        gzip \
-        bzip2 \
-        perl \
-        tar \
-        cpio \
-        unzip \
-        rsync \
-        file \
-        bc \
-        findutils \
-        curl \ 
-        wget \
-        python3 \
-        libncurses5-dev
+    which \
+    sed \
+    make \
+    binutils \
+    build-essential \
+    diffutils \
+    gcc \
+    g++ \
+    bash \
+    patch \
+    gzip \
+    bzip2 \
+    perl \
+    tar \
+    cpio \
+    unzip \
+    rsync \
+    file \
+    bc \
+    findutils \
+    curl \ 
+    wget \
+    python3 \
+    libncurses5-dev
 
 WORKDIR /scratch
+ARG BUILDROOT_VERSION=
+ENV BUILDROOT_VERSION=${BUILDROOT_VERSION}
 
-RUN wget https://buildroot.org/downloads/buildroot-2024.11.1.tar.gz
-RUN tar -xvf buildroot-2024.11.1.tar.gz
+RUN wget https://buildroot.org/downloads/${BUILDROOT_VERSION}.tar.gz
+RUN tar -xvf ${BUILDROOT_VERSION}.tar.gz
 
-WORKDIR /scratch/buildroot-2024.11.1
+WORKDIR /scratch/${BUILDROOT_VERSION}
 
 FROM base AS compile
-
-WORKDIR /scratch/buildroot-2024.11.1
 
 COPY .config .
 RUN make

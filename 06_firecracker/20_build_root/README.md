@@ -18,10 +18,14 @@ just docker-build root
 # start 
 just docker-shell root
 
+# show makefile options
+make help
+
 # build config
+make pc_x86_64_bios_defconfig
+
 make menuconfig
 
-make pc_x86_64_bios_defconfig
 # build the rootfs
 make
 ```
@@ -67,5 +71,3 @@ sudo chroot . /bin/sh
 * buildroot.org/buildroot [repo](https://gitlab.com/buildroot.org/buildroot/)
 * Installing the ncurses library in Debian/Ubuntu Linux [here](https://www.cyberciti.biz/faq/linux-install-ncurses-library-headers-on-debian-ubuntu-centos-fedora/)
 * Chroot vs. Docker: A Comparison of Lightweight Virtualization Technologies [here](https://medium.com/@kabilanMahathevan/chroot-vs-docker-a-comparison-of-lightweight-virtualization-technologies-b9bd8a182d1c)
-
-https://stackoverflow.com/questions/78425670/building-custom-linux-kernel-using-buildroot

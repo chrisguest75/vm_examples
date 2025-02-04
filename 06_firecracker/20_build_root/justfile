@@ -1,6 +1,7 @@
 set dotenv-load := true
 
 export DEFAULT_APPLICATION:="root"
+export BUILDROOT_VERSION:="buildroot-2024.11.1"
 
 # default lists actions
 default:
@@ -10,12 +11,13 @@ default:
 docker-build application="${DEFAULT_APPLICATION}": 
   #!/usr/bin/env bash
   set -xeufo pipefail  
-  docker build --target base --progress=plain -f Dockerfile.{{ application }} -t {{ application }}_build:latest .
+  docker build --target base --build-arg "BUILDROOT_VERSION=${BUILDROOT_VERSION}" --progress=plain -f Dockerfile.{{ application }} -t {{ application }}_build:latest .
 
 # get shell in docker container
 docker-shell application="${DEFAULT_APPLICATION}": (docker-build application)
   #!/usr/bin/env bash
   set -xeufo pipefail  
+  #docker run -it -v ./.config:/scratch/buildroot-2024.11.1/.config --entrypoint bash {{ application }}_build:latest
   docker run -it --entrypoint bash {{ application }}_build:latest
 
 # run docker image
@@ -26,7 +28,12 @@ docker-run application="${DEFAULT_APPLICATION}": (docker-build application)
 
 docker-extract id="":
   #!/usr/bin/env bash
-  set -xeufo pipefail  
-  docker cp {{ id }}:/scratch/buildroot-2024.11.1/.config .
-  docker cp {{ id }}:/scratch/buildroot-2024.11.1/output/images/rootfs.tar .
+  #set -xeufo pipefail  
+  mkdir -p ./out
+  docker cp {{ id }}:/scratch/${BUILDROOT_VERSION}/.config ./out
+  docker cp {{ id }}:/scratch/${BUILDROOT_VERSION}/output/images/rootfs.tar ./out
+  docker cp {{ id }}:/scratch/${BUILDROOT_VERSION}/output/images/disk.img ./out
+  docker cp {{ id }}:/scratch/${BUILDROOT_VERSION}/output/images/boot.img ./out
+  docker cp {{ id }}:/scratch/${BUILDROOT_VERSION}/output/images/grub.img ./out
+  docker cp {{ id }}:/scratch/${BUILDROOT_VERSION}/output/build/linux-6.1.24/vmlinux ./out
   
