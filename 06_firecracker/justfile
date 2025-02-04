@@ -1,0 +1,23 @@
+#!/usr/bin/env just --justfile
+# ^ A shebang isn't required, but allows a justfile to be executed
+#   like a script, with `./justfile test`, for example.
+
+set dotenv-load := true
+
+export API_SOCKET:="/tmp/firecracker.socket"
+
+nix:
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  nix develop --command zsh
+
+# default lists actions
+default:
+  @just -f justfile --list
+
+firecracker-server:
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  LOG_FILE=./firecracker.log
+  firecracker --api-sock "$API_SOCKET" --level Debug --log-path ${LOG_FILE} --show-log-origin --id fc-test
+
