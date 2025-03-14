@@ -37,11 +37,9 @@ sudo ./firecracker --api-sock /tmp/firecracker.socket --config-file <path_to_the
 ## Resources
 
 * Secure and fast microVMs for serverless computing [here](https://firecracker-microvm.github.io/)
-* https://dev.to/l1x/diving-into-firecracker-with-alpine-2h2
-* https://github.com/astro/microvm.nix
-* https://medium.com/@meziounir/understanding-firecracker-microvms-the-next-evolution-in-virtualization-cb9eb8bbeede
-* https://github.com/firecracker-microvm/firectl
-* https://github.com/firecracker-microvm/firecracker/blob/main/docs/rootfs-and-kernel-setup.md
-
-
-https://github.com/firecracker-microvm/firecracker/blob/main/docs/getting-started.md
+* Diving into Firecracker with Alpine [here](https://dev.to/l1x/diving-into-firecracker-with-alpine-2h2)
+* A Nix Flake to build NixOS and run it on one of several Type-2 Hypervisors on NixOS/Linux. [here](https://github.com/astro/microvm.nix)
+* Understanding Firecracker MicroVMs: The Next Evolution in Virtualization [here](https://medium.com/@meziounir/understanding-firecracker-microvms-the-next-evolution-in-virtualization-cb9eb8bbeede)
+* Firectl is a basic command-line tool that lets you run arbitrary Firecracker MicroVMs via the command line. [here](https://github.com/firecracker-microvm/firectl)
+* Firecracker supports uncompressed ELF kernel images on x86_64 while on aarch64 it supports PE formatted images. [here](https://github.com/firecracker-microvm/firecracker/blob/main/docs/rootfs-and-kernel-setup.md)
+* Getting Started with Firecracker [here](https://github.com/firecracker-microvm/firecracker/blob/main/docs/getting-started.md)
